@@ -1,0 +1,15 @@
+{
+  "name": "fibonacciapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "big-integer": "^1.6.47",
+    "express": "^4.17.1"
+  }
+}
