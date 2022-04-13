@@ -184,38 +184,38 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 **Preguntas**
 
 * ¿Cuáles son los tipos de balanceadores de carga en Azure y en qué se diferencian?, ¿Qué es SKU, qué tipos hay y en qué se diferencian?, ¿Por qué el balanceador de carga necesita una IP pública?
-- **Load Balancer Estándar**: Equilibra la carga del tráfico de la capa de red buscando un alto rendimiento y latencia baja, enruta el tráfico dentro y entre regiones hacia las zonas de disponiblidad para obtener una resistencia alta.
-- **Gateway Load Balancer**: Habilita escenarios que necesitan encadenamiento de servicios como análisis, firewall, etc.
-- **Load Balancer Básico**: Para aplicaciones que no necesitan alta disponibilidad o redundancia.
-- **SKU**: _Stock Keeping unit_, son niveles de servicio que ofrecen precios predecibles y varias opciones para alinearse con la capacidad y los patrones de uso de su registro de docker privado en Azure.
-   - Los niveles son: **Basic**, **Estándar**, **Premium** y van desde lo más básico hasta lo más avanzado, se diferencian en casi todas sus características: almacenamiento, operaciones de lectura/escritura por minuto, ancho de banda de carga/descarga, webhooks, etc.
-- El balanceador necesita una IP pública porque es a esta IP que se van a dirigir las peticiones del front, de esta forma nos aseguramos que el número de servidores backend no sea un dato de importancia para el front, permitiendo escalar horizontalmente y balanceando la carga a medida que sea necesario.
+   - **Load Balancer Estándar**: Equilibra la carga del tráfico de la capa de red buscando un alto rendimiento y latencia baja, enruta el tráfico dentro y entre regiones hacia las zonas de disponiblidad para obtener una resistencia alta.
+   - **Gateway Load Balancer**: Habilita escenarios que necesitan encadenamiento de servicios como análisis, firewall, etc.
+   - **Load Balancer Básico**: Para aplicaciones que no necesitan alta disponibilidad o redundancia.
+   - **SKU**: _Stock Keeping unit_, son niveles de servicio que ofrecen precios predecibles y varias opciones para alinearse con la capacidad y los patrones de uso de su registro de docker privado en Azure.
+      - Los niveles son: **Basic**, **Estándar**, **Premium** y van desde lo más básico hasta lo más avanzado, se diferencian en casi todas sus características: almacenamiento, operaciones de lectura/escritura por minuto, ancho de banda de carga/descarga, webhooks, etc.
+   - El balanceador necesita una IP pública porque es a esta IP que se van a dirigir las peticiones del front, de esta forma nos aseguramos que el número de servidores backend no sea un dato de importancia para el front, permitiendo escalar horizontalmente y balanceando la carga a medida que sea necesario.
 
 * ¿Cuál es el propósito del *Backend Pool*?
-- Definir el grupo de recursos que atenderán el tráfico de una regla de equilibrio de carga determinada.
+   - Definir el grupo de recursos que atenderán el tráfico de una regla de equilibrio de carga determinada.
 
 * ¿Cuál es el propósito del *Health Probe*?
-- Los sondeos de estado de un balanceador de carga se utilizan para supervisar el estado de las instancias de backend.
+   - Los sondeos de estado de un balanceador de carga se utilizan para supervisar el estado de las instancias de backend.
 
 * ¿Cuál es el propósito de la *Load Balancing Rule*? ¿Qué tipos de sesión persistente existen, por qué esto es importante y cómo puede afectar la escalabilidad del sistema?.
-- Las reglas del balanceador de cargas nos permiten configurar el tráfico que llega al grupo de backend, pueden ser de **equilibrio de carga, alta disponibilidad, NAT de entrada** y **reglas de salida.**
-- En azure existen 3 tipos de sesiones persistencia: 
-   - **Ninguno(hash-based):** Peticiones recurrentes de un mismo cliente podrían ser atendidas por máquinas diferentes del backend (no importa el estado de la petición).
-   - **IP del cliente:** Todas las peticiones que procedan de una misma IP de origen serán atendidas por la misma máquina del backend.
-   - **IP y protocolo del cliente:** Todas las peticiones que procedan de una misma IP y puerto de origen serán atendidas por la misma máquina del backend, pero si vienen de la misma IP pero con un puerto de origen diferente podrían ser atendidas por otra máquina del backend.
+   - Las reglas del balanceador de cargas nos permiten configurar el tráfico que llega al grupo de backend, pueden ser de **equilibrio de carga, alta disponibilidad, NAT de entrada** y **reglas de salida.**
+   - En azure existen 3 tipos de sesiones persistencia: 
+      - **Ninguno(hash-based):** Peticiones recurrentes de un mismo cliente podrían ser atendidas por máquinas diferentes del backend (no importa el estado de la petición).
+      - **IP del cliente:** Todas las peticiones que procedan de una misma IP de origen serán atendidas por la misma máquina del backend.
+      - **IP y protocolo del cliente:** Todas las peticiones que procedan de una misma IP y puerto de origen serán atendidas por la misma máquina del backend, pero si vienen de la misma IP pero con un puerto de origen diferente podrían ser atendidas por otra máquina del backend.
 
 * ¿Qué es una *Virtual Network*? ¿Qué es una *Subnet*? ¿Para qué sirven los *address space* y *address range*?
-- **Red virtual:** Es una red que permite la interconexión de dispositivos y máquinas virtuales mediante software.
-- **Subnet:** Es una segmentación de una red física o red virtual, que controlan su propio rango de direcciones IP.
-- **Address Space:** Cuando se crea una red virtual, se debe especificar un rango de direcciones IP que no se superponga con otro rango; en resumen es la dirección IP de identifiación de la red.
-- **Address Range:** Determina el número de direcciones que se tienen o se pueden tener en un address space y dependiendo de la cantidad de recursos que se necesiten en la _Virtual Network_, el rango aumentará o disminuirá.
+   - **Red virtual:** Es una red que permite la interconexión de dispositivos y máquinas virtuales mediante software.
+   - **Subnet:** Es una segmentación de una red física o red virtual, que controlan su propio rango de direcciones IP.
+   - **Address Space:** Cuando se crea una red virtual, se debe especificar un rango de direcciones IP que no se superponga con otro rango; en resumen es la dirección IP de identifiación de la red.
+   - **Address Range:** Determina el número de direcciones que se tienen o se pueden tener en un address space y dependiendo de la cantidad de recursos que se necesiten en la _Virtual Network_, el rango aumentará o disminuirá.
 
 * ¿Qué son las *Availability Zone* y por qué seleccionamos 3 diferentes zonas?. ¿Qué significa que una IP sea *zone-redundant*?
-- **Availability Zone:** Son zonas que buscan garantizar una alta disponibilidad replicando sus aplicaciones y datos con el fin de protegerlos de puntos de fallo. Son zonas que se encuentran dentro de una región y cada una de ellas se compone de uno o más datacenters con todas las medidas se calidad y seguridad.
-- **IP zone-redundant:** Son zonas que azure separa de forma física y lógica, lo que permite mejorar la conectividad de la red privada y disminuye fallos de disponibilidad.
+   - **Availability Zone:** Son zonas que buscan garantizar una alta disponibilidad replicando sus aplicaciones y datos con el fin de protegerlos de puntos de fallo. Son zonas que se encuentran dentro de una región y cada una de ellas se compone de uno o más datacenters con todas las medidas se calidad y seguridad.
+   - **IP zone-redundant:** Son zonas que azure separa de forma física y lógica, lo que permite mejorar la conectividad de la red privada y disminuye fallos de disponibilidad.
 
 * ¿Cuál es el propósito del *Network Security Group*?
-- Un _Network Security Group_ permite filtrar el tráfico desde y hacia los recursos de una _Virtual Network_. Este grupo nos permite definir reglas de entrada y salida que permitan administrar el tráfico entrante y saliente de los recursos de azure.
+   - Un _Network Security Group_ permite filtrar el tráfico desde y hacia los recursos de una _Virtual Network_. Este grupo nos permite definir reglas de entrada y salida que permitan administrar el tráfico entrante y saliente de los recursos de azure.
 
 * Informe de newman 1 (Punto 2)
 * Presente el Diagrama de Despliegue de la solución.
